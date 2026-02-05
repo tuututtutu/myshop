@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Accueil – MyShop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: #e5e7eb;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 60px;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      color: #38bdf8;
+    }
+
+    nav a, nav span {
+      margin-left: 28px;
+      text-decoration: none;
+      color: #cbd5f5;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #38bdf8;
+    }
+
+    .hero {
+      text-align: center;
+      margin-top: 140px;
+      padding: 0 20px;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .buttons a {
+      padding: 16px 40px;
+      border-radius: 18px;
+      text-decoration: none;
+      font-weight: 700;
+      color: #020617;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    }
+
+    .buttons a.secondary {
+      background: transparent;
+      color: #38bdf8;
+      border: 2px solid #38bdf8;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>MyShop</h1>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="produit.html">Produits</a>
+    <a href="panier.html">Panier</a>
+    <a href="connexion.html" id="loginLink">Connexion</a>
+    <span id="username"></span>
+    <a href="#" id="logout">Déconnexion</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2 id="welcome">Bienvenue sur MyShop</h2>
+  <p>Découvrez nos produits premium au meilleur prix</p>
+
+  <div class="buttons">
+    <a href="produit.html">Voir les produits</a>
+    <a href="connexion.html" class="secondary" id="ctaLogin">Se connecter</a>
+  </div>
+</section>
+
+<script>
+/* =========================
+   ANIMATIONS
+========================= */
+gsap.from("header", { y: -80, opacity: 0, duration: 0.8 });
+gsap.from(".hero", { opacity: 0, y: 60, duration: 0.9, delay: 0.2 });
+
+</script>
+
+<!-- 👤 NAVBAR CONNEXION / DÉCONNEXION -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const loginLink = document.getElementById("loginLink");
+  const logoutBtn = document.getElementById("logout");
+  const usernameSpan = document.getElementById("username");
+
+  const loggedIn = localStorage.getItem("loggedIn");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (loggedIn === "true" && user && user.name) {
+    loginLink.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    usernameSpan.style.display = "inline-block";
+    usernameSpan.textContent = "👤 " + user.name;
+  } else {
+    loginLink.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    usernameSpan.style.display = "none";
+  }
+
+  logoutBtn.addEventListener("click", e => {
+    e.preventDefault();
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "connexion.html";
+  });
+});
+</script>
+
+</body>
+</html>
