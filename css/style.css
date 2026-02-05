@@ -1,0 +1,62 @@
+/* =====================
+   PRODUITS (CORRECTIF 4 PAR LIGNE)
+===================== */
+.products {
+  display: grid;
+  /* Force exactement 4 colonnes de taille identique */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px; /* Aligné sur ton container */
+  margin: 60px auto; 
+  padding: 0 20px;
+}
+
+.card {
+  width: 100%; /* La carte occupe toute sa colonne */
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card img {
+  width: 100%;
+  max-width: 150px; /* Empêche les images d'être trop grandes */
+  height: auto;
+  object-fit: contain;
+}
+
+/* RESPONSIVE : Tablette (2 par ligne) et Mobile (1 par ligne) */
+@media (max-width: 1024px) {
+  .products { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .products { grid-template-columns: 1fr; }
+}
+/* =====================
+   RESPONSIVE (MODIFIÉ)
+===================== */
+@media (max-width: 1100px) {
+  .products {
+    grid-template-columns: repeat(2, 1fr); /* 2 par ligne sur tablette */
+  }
+}
+
+@media (max-width: 650px) {
+  .products {
+    grid-template-columns: 1fr; /* 1 par ligne sur mobile */
+  }
+  header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
