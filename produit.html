@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Produits – MyShop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",sans-serif}
+    body{background:radial-gradient(circle at top,#0f172a,#020617);color:#e5e7eb}
+    header{display:flex;justify-content:space-between;align-items:center;padding:22px 60px;background:rgba(2,6,23,.85)}
+    header h1{color:#38bdf8}
+    nav a,nav span{margin-left:28px;color:#cbd5f5;text-decoration:none}
+    .filters{display:flex;justify-content:center;gap:14px;margin:40px 0}
+    .filter{padding:12px 28px;border-radius:999px;border:1px solid #38bdf8;background:transparent;color:#38bdf8;cursor:pointer;font-weight:600}
+    .filter.active{background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:#020617}
+    .products{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;padding:40px;max-width:1400px;margin:auto}
+    @media (max-width:1200px){.products{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:900px){.products{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:500px){.products{grid-template-columns:1fr}}
+    .card{background:rgba(255,255,255,.05);border-radius:18px;padding:28px;text-align:center}
+    .card img{width:120px;margin-bottom:18px}
+    select{width:100%;padding:10px;border-radius:10px;margin-bottom:14px}
+    button.add{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#0ea5e9);font-weight:700;cursor:pointer}
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>MyShop</h1>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="produit.html">Produits</a>
+    <a href="panier.html">Panier</a>
+    <a href="connexion.html" id="loginLink">Connexion</a>
+    <span id="username"></span>
+    <a href="#" id="logout" style="display:none;">Déconnexion</a>
+  </nav>
+</header>
+
+<section class="filters">
+  <button class="filter active" data-season="all">Tous</button>
+  <button class="filter" data-season="ete">☀️ Été</button>
+  <button class="filter" data-season="hiver">❄️ Hiver</button>
+</section>
+
+<section class="products">
+
+  <div class="card" data-product="ensemble1" data-season="ete">
+    <img src="images/ensemble1-noir.png">
+    <h3>Ensemble Elegant</h3>
+    <p>29.99€</p>
+    <select class="color">
+      <option value="noir">Noir</option>
+      <option value="blanc">Blanc</option>
+      <option value="beige">Beige</option>
+      <option value="beige-fonce">Beige Foncé</option>
+      <option value="bleu-ciel">Bleu Ciel</option>
+      <option value="bleu-fonce">Bleu Foncé</option>
+      <option value="rouge">Rouge</option>
+      <option value="vert-fonce">Vert Foncé</option>
+    </select>
+    <select class="size">
+      <option value="S">S</option>
+      <option value="M" selected>M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+    </select>
+    <button class="add" data-name="Ensemble Elegant" data-price="29.99">Ajouter au panier</button>
+  </div>
+
+  <div class="card" data-product="tshirt1" data-season="ete">
+    <img src="images/tshirt1-noir.png">
+    <h3>T-shirt simple</h3>
+    <p>29.99€</p>
+    <select class="color">
+      <option value="noir">Noir</option>
+      <option value="blanc">Blanc</option>
+      <option value="beige">Beige</option>
+      <option value="bleu">Bleu</option>
+      <option value="rouge">Rouge</option>
+    </select>
+    <select class="size">
+      <option value="S">S</option>
+      <option value="M" selected>M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+      <option value="XXL">XXL</option>
+      <option value="XXXL">XXXL</option>
+      <option value="4XL">4XL</option>
+    </select>
+    <button class="add" data-name="T-shirt simple" data-price="29.99">Ajouter au panier</button>
+  </div>
+
+  <div class="card" data-product="maillot1" data-season="ete">
+    <img src="images/maillot1-noir.png">
+    <h3>Maillot Simple</h3>
+    <p>29.99€</p>
+    <select class="color">
+      <option value="noir">Noir</option>
+      <option value="blanc">Blanc</option>
+      <option value="bleu">Bleu</option>
+      <option value="rouge">Rouge</option>
+      <option value="vert">Vert</option>
+      <option value="vert-fonce">Vert foncé</option>
+    </select>
+    <select class="size">
+      <option value="M">M</option>
+      <option value="L" selected>L</option>
+      <option value="XL">XL</option>
+      <option value="XXL">XXL</option>
+      <option value="XXXL">XXXL</option>
+      <option value="4XL">4XL</option>
+    </select>
+    <button class="add" data-name="Maillot Simple" data-price="29.99">Ajouter au panier</button>
+  </div>
+
+  <div class="card" data-product="montre1" data-season="ete">
+    <img src="images/montre1-noir.png">
+    <h3>RICEGGO</h3>
+    <p>29.99€</p>
+    <select class="color">
+      <option value="noir">Noir</option>
+      <option value="argent">Argent</option>
+      <option value="bleu">Bleu</option>
+    </select>
+    <button class="add" data-name="RICEGGO" data-price="29.99">Ajouter au panier</button>
+  </div>
+
+  <div class="card" data-product="montre-ultra" data-season="hiver">
+    <img src="images/montre-ultra-noir.png">
+    <h3>Montre Ultra</h3>
+    <p>49€</p>
+    <select class="color">
+      <option value="noir">Noir</option>
+      <option value="argent">Argent</option>
+      <option value="bleu">Bleu</option>
+      <option value="vert">Vert</option>
+    </select>
+    <button class="add" data-name="Montre Ultra" data-price="49">Ajouter au panier</button>
+  </div>
+
+</section>
+
+<script>
+gsap.fromTo(".card",{opacity:0,y:40},{opacity:1,y:0,duration:.6,stagger:.1});
+
+document.querySelectorAll(".card").forEach(card=>{
+  const select=card.querySelector(".color");
+  const img=card.querySelector("img");
+  const product=card.dataset.product;
+  select.addEventListener("change",()=>{
+    img.src=`images/${product}-${select.value}.png`;
+  });
+});
+
+document.querySelectorAll(".filter").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const season=btn.dataset.season;
+    document.querySelectorAll(".card").forEach(card=>{
+      card.style.display = season==="all" || card.dataset.season===season ? "block" : "none";
+    });
+  });
+});
+</script>
+
+<!-- 🛒 AJOUT AU PANIER PAR UTILISATEUR -->
+<script>
+document.querySelectorAll(".add").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const loggedIn = localStorage.getItem("loggedIn");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (loggedIn !== "true" || !user || !user.email) {
+      alert("Vous devez être connecté pour ajouter au panier");
+      window.location.href = "connexion.html";
+      return;
+    }
+
+    const card = button.closest(".card");
+    const cartKey = "cart_" + user.email;
+    let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+cart.push({
+  name: button.dataset.name,
+  price: parseFloat(button.dataset.price),
+  color: card.querySelector(".color").value,
+  size: card.querySelector(".size") ? card.querySelector(".size").value : null,
+  product: card.dataset.product
+});
+
+    localStorage.setItem(cartKey, JSON.stringify(cart));
+
+    button.textContent = "Ajouté ✔";
+    setTimeout(()=>button.textContent="Ajouter au panier",1200);
+  });
+});
+</script>
+</script>
+
+<!-- 👤 NAVBAR CONNEXION / DÉCONNEXION -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const loginLink = document.getElementById("loginLink");
+  const logoutBtn = document.getElementById("logout");
+  const usernameSpan = document.getElementById("username");
+
+  const loggedIn = localStorage.getItem("loggedIn");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (loggedIn === "true" && user && user.name) {
+    loginLink.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    usernameSpan.style.display = "inline-block";
+    usernameSpan.textContent = "👤 " + user.name;
+  } else {
+    loginLink.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    usernameSpan.style.display = "none";
+  }
+
+  logoutBtn.addEventListener("click", e => {
+    e.preventDefault();
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    window.location.href = "connexion.html";
+  });
+});
+</script>
+
+</body>
+</html>

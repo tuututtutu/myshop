@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Paiement réussi</title>
+</head>
+<body>
+
+<script>
+  // 🔐 Vérifie l'utilisateur
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user && user.email) {
+    // 🛒 Vide le panier de cet utilisateur
+    localStorage.removeItem("cart_" + user.email);
+  }
+
+  // 🔁 Redirection après nettoyage
+  window.location.href = "index.html";
+</script>
+<script>
+  localStorage.removeItem("cart");
+</script>
+</body>
+</html>
