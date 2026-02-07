@@ -1,7 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 
-\Stripe\Stripe::setApiKey('sk_test_51POF9cFyvybDzHL8ITTjWwmKtBA21jwTAzWhTaKnsY2u5K1ve6COn9nwrCs26kx4kZ2RW1qB9M0ovOV3IltunWoJ00HHgH6Qam');
+\Stripe\Stripe::setApiKey('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');
 
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -36,3 +36,4 @@ $session = \Stripe\Checkout\Session::create([
 
 header('Content-Type: application/json');
 echo json_encode(['id' => $session->id]);
+
