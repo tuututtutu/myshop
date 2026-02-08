@@ -49,17 +49,17 @@
   <button class="pay" id="checkout">Paiement sécurisé</button>
 </div>
 
-<!-- 🔒 PROTECTION PANIER -->
-<script>
-if (localStorage.getItem("loggedIn") !== "true") {
-  alert("Vous devez être connecté pour accéder au panier 🔒");
-  window.location.href = "connexion.html";
-}
-</script>
-
-<!-- 🛒 PANIER PAR UTILISATEUR -->
+<!-- 🛒 PANIER -->
 <script>
 const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user || !user.email) {
+  document.getElementById("cart").innerHTML =
+    "<p class='empty'>Vous devez être connecté pour accéder au panier</p>";
+  document.getElementById("checkout").style.display = "none";
+  throw new Error("Utilisateur non connecté");
+}
+
 const cartKey = "cart_" + user.email;
 let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
 
@@ -112,7 +112,7 @@ function renderCart() {
 renderCart();
 </script>
 
-<!-- 👤 NAVBAR CONNEXION / DÉCONNEXION -->
+<!-- 👤 NAVBAR -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const loginLink = document.getElementById("loginLink");
@@ -135,8 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   logoutBtn.addEventListener("click", e => {
     e.preventDefault();
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("user");
+    localStorage.clear();
     window.location.href = "connexion.html";
   });
 });
@@ -144,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- 💳 STRIPE -->
 <script>
-const stripe = Stripe("pk_live_51POF9cFyvybDzHL88rcXjq8s9HfbrgbumrfwdOeCzWQPGrs27Kil4Y51HSCnTtNFokQRiwIOWo6InHOyqLJxPutC00gQ6uJg6E");
+const stripe = Stripe("pk_test_51POF9cFyvybDzHL8CHWecWKRmap2ZATmiZvldg1fUP0AXjlA8oYg9FlPIxlwn67OHROHGmSk7woj52fWth6yfmcW00KXwtvgyr");
 
 document.getElementById("checkout").addEventListener("click", async () => {
   if (!cart.length) {
@@ -152,14 +151,34 @@ document.getElementById("checkout").addEventListener("click", async () => {
     return;
   }
 
-  const res = await fetch("create-checkout-session.php", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(cart)
-  });
+  try {
+    const res = await fetch("/create-checkout-session.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cart)
+    });
 
-  const session = await res.json();
-  stripe.redirectToCheckout({ sessionId: session.id });
+    const text = await res.text();
+
+    if (!res.ok) {
+      console.error(text);
+      alert("Erreur serveur lors du paiement");
+      return;
+    }
+
+    const session = JSON.parse(text);
+
+    if (!session.id) {
+      alert("Session Stripe invalide");
+      return;
+    }
+
+    await stripe.redirectToCheckout({ sessionId: session.id });
+
+  } catch (err) {
+    console.error(err);
+    alert("Erreur réseau");
+  }
 });
 </script>
 
