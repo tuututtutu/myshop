@@ -159,26 +159,6 @@ button{padding:16px 40px;font-size:1.1rem;border:none;border-radius:12px;backgro
 <div id="cart"></div>
 <button id="checkout">Paiement sécurisé</button>
 
-<script>
-document.getElementById("checkout").onclick = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const cart = JSON.parse(localStorage.getItem("cart_" + user.email)) || [];
-
-  if (!cart.length) {
-    alert("Panier vide");
-    return;
-  }
-
-  const res = await fetch("https://my-shop.shop:4242/create-checkout-session", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items: cart })
-  });
-
-  const data = await res.json();
-  window.location.href = data.url;
-};
-</script>
 
 </body>
 </html>
