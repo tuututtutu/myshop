@@ -140,24 +140,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-<script>
-document.getElementById("checkout").onclick = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const cart = JSON.parse(localStorage.getItem("cart_" + user.email)) || [];
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Panier</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+body{background:#020617;color:#e5e7eb;font-family:sans-serif}
+button{padding:16px 40px;font-size:1.1rem;border:none;border-radius:12px;background:#38bdf8;color:#020617;font-weight:700;cursor:pointer}
+</style>
+</head>
 
-  if (!cart.length) {
-    alert("Panier vide");
+<body>
+
+<h2>Panier</h2>
+<div id="cart"></div>
+<button id="checkout">Paiement sécurisé</button>
+
+<script>
+const user=JSON.parse(localStorage.getItem("user"));
+const cart=JSON.parse(localStorage.getItem("cart_"+user.email))||[];
+
+const paymentLinks={
+  "ensemble-elegant":"https://buy.stripe.com/XXXXXXXX",
+  "tshirt-simple":"https://buy.stripe.com/bJe8wPb8G7Ga7VZckP0VO02",
+  "maillot-simple":"https://buy.stripe.com/bJe9AT5OmaSm2BFdoT0VO01",
+  "riccego":"https://buy.stripe.com/4gM9AT7Wu8Kea4784z0VO03"
+};
+
+document.getElementById("checkout").onclick=()=>{
+  if(!cart.length){alert("Panier vide");return;}
+  const key=cart[0].product;
+  if(!paymentLinks[key]){
+    alert("Aucun lien de paiement pour ce produit");
     return;
   }
-
-  const res = await fetch("https://my-shop.shop:4242/create-checkout-session", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items: cart })
-  });
-
-  const data = await res.json();
-  window.location.href = data.url;
+  window.location.href=paymentLinks[key];
 };
 </script>
 
