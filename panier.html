@@ -160,24 +160,23 @@ button{padding:16px 40px;font-size:1.1rem;border:none;border-radius:12px;backgro
 <button id="checkout">Paiement sécurisé</button>
 
 <script>
-const user=JSON.parse(localStorage.getItem("user"));
-const cart=JSON.parse(localStorage.getItem("cart_"+user.email))||[];
+document.getElementById("checkout").onclick = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const cart = JSON.parse(localStorage.getItem("cart_" + user.email)) || [];
 
-const paymentLinks={
-  "ensemble-elegant":"https://buy.stripe.com/XXXXXXXX",
-  "tshirt-simple":"https://buy.stripe.com/bJe8wPb8G7Ga7VZckP0VO02",
-  "maillot-simple":"https://buy.stripe.com/bJe9AT5OmaSm2BFdoT0VO01",
-  "riccego":"https://buy.stripe.com/4gM9AT7Wu8Kea4784z0VO03"
-};
-
-document.getElementById("checkout").onclick=()=>{
-  if(!cart.length){alert("Panier vide");return;}
-  const key=cart[0].product;
-  if(!paymentLinks[key]){
-    alert("Aucun lien de paiement pour ce produit");
+  if (!cart.length) {
+    alert("Panier vide");
     return;
   }
-  window.location.href=paymentLinks[key];
+
+  const res = await fetch("https://my-shop.shop:4242/create-checkout-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items: cart })
+  });
+
+  const data = await res.json();
+  window.location.href = data.url;
 };
 </script>
 
