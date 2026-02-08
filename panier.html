@@ -140,45 +140,42 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-
-<!-- 💳 STRIPE -->
+<!-- 💳 STRIPE – Payment Link par produit (SANS LIMITE) -->
 <script>
-const stripe = Stripe("pk_live_51POF9cFyvybDzHL88rcXjq8s9HfbrgbumrfwdOeCzWQPGrs27Kil4Y51HSCnTtNFokQRiwIOWo6InHOyqLJxPutC00gQ6uJg6E");
-
-document.getElementById("checkout").addEventListener("click", async () => {
+document.getElementById("checkout").addEventListener("click", () => {
   if (!cart.length) {
     alert("Votre panier est vide");
     return;
   }
 
-  try {
-    const res = await fetch("/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(cart)
-    });
-
-    const text = await res.text();
-
-    if (!res.ok) {
-      console.error(text);
-      alert("Erreur serveur lors du paiement");
-      return;
+  /*
+    ⚠️ IMPORTANT
+    La clé DOIT correspondre à item.product
+    Exemple dans ton panier :
+    {
+      name: "T-shirt Simple",
+      product: "tshirt-simple",
+      price: 25
     }
+  */
 
-    const session = JSON.parse(text);
+  const paymentLinks = {
+    "riccego": "https://buy.stripe.com/4gM9AT7Wu8Kea4784z0VO03",
+    "tshirt-simple": "https://buy.stripe.com/bJe8wPb8G7Ga7VZckP0VO02",
+    "maillot-simple": "https://buy.stripe.com/bJe9AT5OmaSm2BFdoT0VO01"
 
-    if (!session.id) {
-      alert("Session Stripe invalide");
-      return;
-    }
+    // 👉 ajoute autant de produits que tu veux ici
+  };
 
-    await stripe.redirectToCheckout({ sessionId: session.id });
+  const productKey = cart[0].product;
 
-  } catch (err) {
-    console.error(err);
-    alert("Erreur réseau");
+  if (!paymentLinks[productKey]) {
+    alert("Aucun lien de paiement pour ce produit");
+    return;
   }
+
+  // 🔁 Redirection Stripe officielle
+  window.location.href = paymentLinks[productKey];
 });
 </script>
 
