@@ -152,7 +152,7 @@ document.getElementById("checkout").addEventListener("click", async () => {
   }
 
   try {
-    const res = await fetch("/create-checkout-session.php", {
+    const res = await fetch("/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(cart)
