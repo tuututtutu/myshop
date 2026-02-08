@@ -140,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-<!-- 💳 STRIPE – Payment Link par produit (SANS LIMITE) -->
 <script>
 document.getElementById("checkout").addEventListener("click", () => {
   if (!cart.length) {
@@ -148,33 +147,23 @@ document.getElementById("checkout").addEventListener("click", () => {
     return;
   }
 
-  /*
-    ⚠️ IMPORTANT
-    La clé DOIT correspondre à item.product
-    Exemple dans ton panier :
-    {
-      name: "T-shirt Simple",
-      product: "tshirt-simple",
-      price: 25
-    }
-  */
-
   const paymentLinks = {
-    "riccego": "https://buy.stripe.com/4gM9AT7Wu8Kea4784z0VO03",
+    "ensemble-elegant": "https://buy.stripe.com/fZu5kDfoW0dIdgjacH0VO04",
     "tshirt-simple": "https://buy.stripe.com/bJe8wPb8G7Ga7VZckP0VO02",
-    "maillot-simple": "https://buy.stripe.com/bJe9AT5OmaSm2BFdoT0VO01"
-
-    // 👉 ajoute autant de produits que tu veux ici
+    "maillot-simple": "https://buy.stripe.com/bJe9AT5OmaSm2BFdoT0VO01",
+    "riccego": "https://buy.stripe.com/4gM9AT7Wu8Kea4784z0VO03",
+    "montre-ultra": "https://buy.stripe.com/YYYY"
   };
 
   const productKey = cart[0].product;
+
+  console.log("Produit panier :", productKey);
 
   if (!paymentLinks[productKey]) {
     alert("Aucun lien de paiement pour ce produit");
     return;
   }
 
-  // 🔁 Redirection Stripe officielle
   window.location.href = paymentLinks[productKey];
 });
 </script>
